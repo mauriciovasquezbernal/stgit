@@ -247,20 +247,20 @@ def __send_message_smtp(smtpserver, from_addr, to_addr_list, msg, options):
     smtpuser, smtppassword, smtpusetls = __smtp_credentials
 
     try:
-        s = smtplib.SMTP(smtpserver)
+        s = smtplib.SMTP_SSL(smtpserver)
     except Exception as err:
         raise CmdException(str(err))
 
     s.set_debuglevel(0)
     try:
         if smtpuser and smtppassword:
-            s.ehlo()
-            if smtpusetls:
-                if not hasattr(socket, 'ssl'):
-                    raise CmdException(
-                        "cannot use TLS - no SSL support in Python")
-                s.starttls()
-                s.ehlo()
+            #s.ehlo()
+            #if smtpusetls:
+            #    if not hasattr(socket, 'ssl'):
+            #        raise CmdException(
+            #            "cannot use TLS - no SSL support in Python")
+            #    s.starttls()
+            #    s.ehlo()
             s.login(smtpuser, smtppassword)
 
         result = s.sendmail(from_addr, to_addr_list, msg)
